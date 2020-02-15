@@ -63,12 +63,12 @@ function totalVolumeCredits() {
 }
 
 function totalAmount() {
-    let totalAmount = 0;
+    let result = 0;
     for (let perf of invoiceJson[0].performances) {
-        totalAmount += amountFor(perf);
+        result += amountFor(perf);
     }
 
-    return totalAmount;
+    return result;
 }
 
 let invoice = '[{"customer": "BigCo","performances": [{  "playID": "hamlet",  "audience": "55"},{"playID": "as-like","audience": "35"},{"playID": "othello","audience": "40"}]}]';
