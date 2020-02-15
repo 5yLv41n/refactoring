@@ -1,12 +1,11 @@
 function statement(invoice, plays) {
-    let totalAmount = 0;
     let result = `Statement for ${invoice.customer}\n`;
     for (let perf of invoice.performances) {
         // imprime la ligne de cette commande
         result += ` ${playFor(perf).name} : ${usd(amountFor(perf))} (${perf.audience} seats) \n`;
-        totalAmount += amountFor(perf);
     }
 
+    let totalAmount = totalAmountTmp();
     result += `Amount owed is ${usd(totalAmount)}\n`;
     result += `You earned ${totalVolumeCredits()} credits`;
 
