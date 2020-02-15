@@ -5,11 +5,11 @@ function statement(invoice, plays) {
     for (let perf of invoice.performances) {
         volumeCredits += volumeCreditsFor(perf);
         // imprime la ligne de cette commande
-        result += ` ${playFor(perf).name} : ${usd(amountFor(perf)/100)} (${perf.audience} seats) \n`;
+        result += ` ${playFor(perf).name} : ${usd(amountFor(perf))} (${perf.audience} seats) \n`;
         totalAmount += amountFor(perf);
     }
 
-    result += `Amount owed is ${usd(totalAmount/100)}\n`;
+    result += `Amount owed is ${usd(totalAmount)}\n`;
     result += `You earned ${volumeCredits} credits`;
 
     return result;
@@ -53,7 +53,7 @@ function volumeCreditsFor(aPerformance) {
 
 function usd(number) {
     return new Intl.NumberFormat("en-US",
-        { style: "currency", currency: "USD", minimumFractionDigits: 2 }).format(number);
+        { style: "currency", currency: "USD", minimumFractionDigits: 2 }).format(number/100);
 }
 
 let invoice = '[{"customer": "BigCo","performances": [{  "playID": "hamlet",  "audience": "55"},{"playID": "as-like","audience": "35"},{"playID": "othello","audience": "40"}]}]';
