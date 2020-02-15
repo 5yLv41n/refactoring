@@ -5,8 +5,7 @@ function statement(invoice, plays) {
         result += ` ${playFor(perf).name} : ${usd(amountFor(perf))} (${perf.audience} seats) \n`;
     }
 
-    let totalAmount = totalAmountTmp();
-    result += `Amount owed is ${usd(totalAmount)}\n`;
+    result += `Amount owed is ${usd(totalAmount())}\n`;
     result += `You earned ${totalVolumeCredits()} credits`;
 
     return result;
@@ -63,7 +62,7 @@ function totalVolumeCredits() {
 
 }
 
-function totalAmountTmp() {
+function totalAmount() {
     let totalAmount = 0;
     for (let perf of invoiceJson[0].performances) {
         totalAmount += amountFor(perf);
