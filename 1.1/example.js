@@ -5,7 +5,7 @@ function statement(invoice, plays) {
     const format = new Intl.NumberFormat("en-US",
         { style: "currency", currency: "USD", minimumFractionDigits: 2 }).format;
     for (let perf of invoice.performances) {
-        const play = plays[perf.playID];
+        const play = playFor(perf);
         let thisAmount = amountFor(perf, play);
 
         // ajoute des crédits de volume
@@ -46,6 +46,10 @@ function amountFor(aPerformance, play) {
     }
 
     return result;
+}
+
+function playFor(aPerformance) {
+    return playsJson[aPerformance.playID];
 }
 
 let invoice = '[{"customer": "BigCo","performances": [{  "playID": "hamlet",  "audience": "55"},{"playID": "as-like","audience": "35"},{"playID": "othello","audience": "40"}]}]';
