@@ -6,26 +6,7 @@ function statement(invoice, plays) {
         { style: "currency", currency: "USD", minimumFractionDigits: 2 }).format;
     for (let perf of invoice.performances) {
         const play = plays[perf.playID];
-        let thisAmount = 0;
-
-        switch (play.type) {
-            case "tragedy":
-                thisAmount = 40000;
-                if (perf.audience > 30) {
-                    thisAmount += 1000 * (perf.audience - 30);
-                }
-                break;
-
-            case "comedy":
-                thisAmount = 30000;
-                if (perf.audience > 20) {
-                    thisAmount += 1000 + 500 * (perf.audience - 20);
-                }
-                thisAmount += 300 * perf.audience;
-                break;
-            default:
-                throw new Error(`Unknown type: ${play.type}`);
-        }
+        let thisAmount = amountFor(perf, play);
 
         // ajoute des crédits de volume
         volumeCredits += Math.max(perf.audience - 30, 0);
@@ -41,6 +22,30 @@ function statement(invoice, plays) {
     result += `You earned ${volumeCredits} credits`;
 
     return result;
+}
+
+function amountFor(perf, play) {
+    let thisAmount = 0;
+    switch (play.type) {
+        case "tragedy":
+            thisAmount = 40000;
+            if (perf.audience > 30) {
+                thisAmount += 1000 * (perf.audience - 30);
+            }
+            break;
+
+        case "comedy":
+            thisAmount = 30000;
+            if (perf.audience > 20) {
+                thisAmount += 1000 + 500 * (perf.audience - 20);
+            }
+            thisAmount += 300 * perf.audience;
+            break;
+        default:
+            throw new Error(`Unknown type: ${play.type}`);
+    }
+
+    return thisAmount;
 }
 
 let invoice = '[{"customer": "BigCo","performances": [{  "playID": "hamlet",  "audience": "55"},{"playID": "as-like","audience": "35"},{"playID": "othello","audience": "40"}]}]';
