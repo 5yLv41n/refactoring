@@ -1,11 +1,11 @@
 function statement(invoice) {
-    return renderPlainText(invoice);
+    const statementData = {};
+    return renderPlainText(statementData, invoice);
 }
 
-function renderPlainText(invoice) {
+function renderPlainText(data, invoice) {
     let result = `Statement for ${invoice.customer}\n`;
     for (let perf of invoice.performances) {
-        // imprime la ligne de cette commande
         result += ` ${playFor(perf).name} : ${usd(amountFor(perf))} (${perf.audience} seats) \n`;
     }
 
