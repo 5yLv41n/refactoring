@@ -5,11 +5,7 @@ function statement(invoice, plays) {
     const format = new Intl.NumberFormat("en-US",
         { style: "currency", currency: "USD", minimumFractionDigits: 2 }).format;
     for (let perf of invoice.performances) {
-        // ajoute des crédits de volume
-        volumeCredits += Math.max(perf.audience - 30, 0);
-        // ajoute un crédit par groupe de cinq spectateurs assistant à une comédie
-        if ("comedy" === playFor(perf).type) volumeCredits += Math.floor(perf.audience / 5);
-
+        volumeCredits += volumeCreditsFor(perf);
         // imprime la ligne de cette commande
         result += ` ${playFor(perf).name} : ${format(amountFor(perf)/100)} (${perf.audience} seats) \n`;
         totalAmount += amountFor(perf);
@@ -47,6 +43,14 @@ function amountFor(aPerformance) {
 
 function playFor(aPerformance) {
     return playsJson[aPerformance.playID];
+}
+
+function volumeCreditsFor(perf) {
+    let volumeCredits = 0;
+    volumeCredits += Math.max(perf.audience - 30, 0);
+    if ("comedy" === playFor(perf).type) volumeCredits += Math.floor(perf.audience / 5);
+
+    return volumeCredits;
 }
 
 let invoice = '[{"customer": "BigCo","performances": [{  "playID": "hamlet",  "audience": "55"},{"playID": "as-like","audience": "35"},{"playID": "othello","audience": "40"}]}]';
