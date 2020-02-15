@@ -7,13 +7,8 @@ function statement(invoice, plays) {
         totalAmount += amountFor(perf);
     }
 
-    let volumeCredits = 0;
-    for (let perf of invoice.performances) {
-        volumeCredits += volumeCreditsFor(perf);
-    }
-
     result += `Amount owed is ${usd(totalAmount)}\n`;
-    result += `You earned ${volumeCredits} credits`;
+    result += `You earned ${totalVolumeCredits()} credits`;
 
     return result;
 }
@@ -57,6 +52,16 @@ function volumeCreditsFor(aPerformance) {
 function usd(number) {
     return new Intl.NumberFormat("en-US",
         { style: "currency", currency: "USD", minimumFractionDigits: 2 }).format(number/100);
+}
+
+function totalVolumeCredits() {
+    let result = 0;
+    for (let perf of invoiceJson[0].performances) {
+        result += volumeCreditsFor(perf);
+    }
+
+    return result;
+
 }
 
 let invoice = '[{"customer": "BigCo","performances": [{  "playID": "hamlet",  "audience": "55"},{"playID": "as-like","audience": "35"},{"playID": "othello","audience": "40"}]}]';
