@@ -1,10 +1,11 @@
 function statement(invoice) {
     const statementData = {};
+    statementData.customer = invoice.customer;
     return renderPlainText(statementData, invoice);
 }
 
 function renderPlainText(data, invoice) {
-    let result = `Statement for ${invoice.customer}\n`;
+    let result = `Statement for ${data.customer}\n`;
     for (let perf of invoice.performances) {
         result += ` ${playFor(perf).name} : ${usd(amountFor(perf))} (${perf.audience} seats) \n`;
     }
